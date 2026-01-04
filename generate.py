@@ -91,16 +91,16 @@ def parse_varint(data, offset):
 
 def parse_protobuf(data):
     if isinstance(data, str):
-        try:
-            data = bytes.fromhex(data)
-        except Exception:
-            return {}
+        try:try:
+            data = bytes.fromhex (data)fromhex(data)
+        except Exception:except Exception:
+            return {}return {}
 
-    offset = 0
-    result = {}
+    offset = 00
+    result = {}{}
 
-    while offset < len(data):
-        try:
+    while offset < len(data):while offset < len(data):
+        try:try:
             field_header, offset = parse_varint(data, offset)
             field_number = field_header >> 3
             wire_type = field_header & 7
@@ -628,22 +628,22 @@ def GET_PAYLOAD_BY_DATA(JWT_TOKEN, NEW_ACCESS_TOKEN, date, response, status_code
 def generate_accounts():
     name = request.args.get('name', 'HAWK')
     count_str = request.args.get('count', '1')
-    region = request.args.get('region', 'IND').upper()
+    region = request.args.get('region', 'TH').upper()
 
     try:
         count = int(count_str)
-        count = max(1, min(count, 15))
+        count = max(1, min(count, 999999))
     except:
         count = 1
 
     if region not in REGION_LANG:
-        region = "IND"
+        region = "TH"
 
     results = []
     attempts = 0
     max_attempts = count * 10
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=500) as executor:
         while len(results) < count and attempts < max_attempts:
             needed = count - len(results)
             batch = min(needed, 5)
@@ -657,7 +657,7 @@ def generate_accounts():
                 if len(results) >= count:
                     break
             if len(results) < count:
-                time.sleep(2)
+                time.sleep(0)
 
     response_data = {
         "success": True,
@@ -674,8 +674,8 @@ def generate_accounts():
 def home():
     return jsonify({
         "message": "FreeFire Guest Account Generator - Full Login + JWT + Rarity",
-        "endpoint": "/gen?name=HAWK&count=1&region=ID",
-        "max_count": 15,
+        "endpoint": "/gen?name=HAWK&count=1&region=TH",
+        "max_count": 999999,
         "regions": list(REGION_LANG.keys()),
         "fields": ["uid", "password", "name", "region", "id", "jwt_token", "rare", "rarity_score"]
     })
