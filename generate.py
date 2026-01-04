@@ -632,7 +632,7 @@ def generate_accounts():
 
     try:
         count = int(count_str)
-        count = max(1, min(count, 999999))
+        count = max(1, min(count, 999))
     except:
         count = 1
 
@@ -643,7 +643,7 @@ def generate_accounts():
     attempts = 0
     max_attempts = count * 10
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=500) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
         while len(results) < count and attempts < max_attempts:
             needed = count - len(results)
             batch = min(needed, 5)
@@ -675,7 +675,7 @@ def home():
     return jsonify({
         "message": "FreeFire Guest Account Generator - Full Login + JWT + Rarity",
         "endpoint": "/gen?name=HAWK&count=1&region=TH",
-        "max_count": 999999,
+        "max_count": 999,
         "regions": list(REGION_LANG.keys()),
         "fields": ["uid", "password", "name", "region", "id", "jwt_token", "rare", "rarity_score"]
     })
