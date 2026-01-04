@@ -643,7 +643,7 @@ def generate_accounts():
     attempts = 0
     max_attempts = count * 10
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         while len(results) < count and attempts < max_attempts:
             needed = count - len(results)
             batch = min(needed, 5)
